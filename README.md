@@ -1,4 +1,4 @@
-# How much money have you put into steam?
+# How much money have you put into Steam?
 Sums up all your steam transactions on https://store.steampowered.com/account/history/
 
 ## Instructions
