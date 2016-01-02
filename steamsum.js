@@ -72,6 +72,9 @@ var sum_totals = function (totals)
 var totals = document.getElementsByClassName('wht_total ');
 var result = sum_totals(totals);
 
-alert('You\'ve spent ' + result['spent'] + ' on ' + result['num_spent'] +
+message = 'You\'ve spent ' + result['spent'] + ' on ' + result['num_spent'] +
   ' transactions.\n\nYou have gained ' + result['credit'] + ' Steam dollars' +
-  ' on ' + result['num_credit'] + ' transactions.');
+  ' on ' + result['num_credit'] + ' transactions.';
+
+console.log(message);
+alert(message);
