@@ -7,9 +7,10 @@ class SteamHistoryParser(HTMLParser):
     def __init__(self):
         super().__init__()
         self.total = 0
-        self.credit = 0
         self.add_data = False
-        self.credit_found = False
+
+    def strip_nonmoney(self, data):
+        return ''.join(c for c in data if c.isdigit() or c in ['.', '-'])
 
     def handle_starttag(self, tag, attrs):
         if tag == 'td':
@@ -19,26 +20,15 @@ class SteamHistoryParser(HTMLParser):
                     parser.feed(attrib[1])
         if tag == 'td' and ('class', "wht_total ") in attrs:
             self.add_data = True
-        if self.credit_found and tag == 'div':
-            self.add_data = True
     
     def handle_endtag(self, tag):
-        if tag == 'td':
-            self.add_data = False
-        if self.credit_found and tag == 'div':
-            self.add_data = False
-            self.credit_found = False
-    
+        self.add_data = False
+
     def handle_data(self, data):
         if self.add_data:
-            data = ''.join(c for c in data if c.isdigit() or c == '.')
-            
-            if self.credit_found:
-                self.credit += float(data)
+            data = self.strip_nonmoney(data)
             if data:
                 self.total += float(data)
-            else:
-                self.credit_found = True
 
 
 if __name__ == '__main__':
@@ -56,6 +46,4 @@ if __name__ == '__main__':
         parser.feed(text)
 
     spent = locale.currency(parser.total)
-    gained = locale.currency(parser.credit)
-    print('You have spent a total of', spent, 'and gained',
-          gained, 'Steam dollars.')
+    print('You have spent a total of', spent, 'on Steam.')
