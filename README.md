@@ -8,4 +8,4 @@ Sums up all your steam transactions given the generated HTML of https://store.st
 4. Run the script
 
 Example:
-  `  python main.py "C:\Users\JohnDoe\Documents\mysteamhistory.html"`
+  `  python steamhistparse.py "C:\Users\JohnDoe\Documents\mysteamhistory.html"`
