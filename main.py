@@ -1,6 +1,6 @@
-import argparse
 import locale
 from html.parser import HTMLParser
+from argparse import ArgumentParser
 
 
 class SteamHistoryParser(HTMLParser):
@@ -41,19 +41,20 @@ class SteamHistoryParser(HTMLParser):
                 self.credit_found = True
 
 
-argp = argparse.ArgumentParser(description='Sum up your Steam transactions.')
-argp.add_argument('path', metavar='path', type=str, nargs=1,
-                  help='The path to the HTML file of the generated DOM')
+if __name__ != '__main__':
+    locale.setlocale(locale.LC_ALL, '')
 
-args = argp.parse_args()
-name = args.path[0]
-
-locale.setlocale(locale.LC_ALL, '')
-
-with open(name, 'rt', encoding='utf-8') as fp:
-    text = fp.read()
+    argp = ArgumentParser(description='Sum up your Steam transactions.')
+    argp.add_argument('path', metavar='path', type=str, nargs=1,
+                      help='The path to the HTML file of the generated DOM')
+    args = argp.parse_args()
+    name = args.path[0]
+    
     parser = SteamHistoryParser()
-    parser.feed(text)
+    with open(name, 'rt', encoding='utf-8') as fp:
+        text = fp.read()
+        parser.feed(text)
+
     spent = locale.currency(parser.total)
     gained = locale.currency(parser.credit)
     print('You have spent a total of', spent, 'and gained',
