@@ -41,7 +41,7 @@ class SteamHistoryParser(HTMLParser):
                 self.credit_found = True
 
 
-if __name__ != '__main__':
+if __name__ == '__main__':
     locale.setlocale(locale.LC_ALL, '')
 
     argp = ArgumentParser(description='Sum up your Steam transactions.')
